@@ -13,6 +13,7 @@
             <a href="{{ route('home') }}" class="brand">Gym<span>logger</span></a>
             <a href="{{ route('exercises.index') }}">Exercises</a>
             @auth
+                <a href="{{ route('workouts.index') }}">My workouts</a>
                 <span class="user">Hi, {{ auth()->user()->name }}</span>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
