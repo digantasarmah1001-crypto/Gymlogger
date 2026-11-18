@@ -5,6 +5,10 @@
 @section('content')
     <h1>Exercises</h1>
 
+    @can('admin')
+        <p><a href="{{ route('exercises.create') }}" class="btn btn-primary">New exercise</a></p>
+    @endcan
+
     <div class="card">
         <table>
             <tr>
