@@ -6,20 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('workout_sets', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('workout_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('exercise_id')->constrained();
+            $table->unsignedSmallInteger('reps');
+            $table->decimal('weight_kg', 6, 2);
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('workout_sets');
