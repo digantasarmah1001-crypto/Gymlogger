@@ -10,5 +10,16 @@
         <p>{{ $exercise->description }}</p>
     </div>
 
+    @can('admin')
+        <div class="actions">
+            <a href="{{ route('exercises.edit', $exercise) }}" class="btn">Edit</a>
+            <form method="POST" action="{{ route('exercises.destroy', $exercise) }}">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn-danger">Delete</button>
+            </form>
+        </div>
+    @endcan
+
     <a href="{{ route('exercises.index') }}">Back to all exercises</a>
 @endsection

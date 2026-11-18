@@ -17,7 +17,7 @@ Route::middleware('guest')->group(function () {
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
 Route::middleware(['auth', 'can:admin'])->group(function () {
-    Route::resource('exercises', ExerciseController::class)->only(['create', 'store']);
+    Route::resource('exercises', ExerciseController::class)->except(['index', 'show']);
 });
 
 Route::resource('exercises', ExerciseController::class)->only(['index', 'show']);

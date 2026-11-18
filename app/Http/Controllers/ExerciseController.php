@@ -32,6 +32,29 @@ class ExerciseController extends Controller
         return view('exercises.show', ['exercise' => $exercise]);
     }
 
+    public function edit(Exercise $exercise)
+    {
+        return view('exercises.edit', ['exercise' => $exercise]);
+    }
+
+    public function update(Request $request, Exercise $exercise)
+    {
+        $exercise->update($this->validateExercise($request, $exercise));
+
+        return redirect()->route('exercises.show', $exercise)->with('status', 'Exercise updated.');
+    }
+
+    public function destroy(Exercise $exercise)
+    {
+        if ($exercise->sets()->exists()) {
+            return back()->with('error', "This exercise is used in workouts, so it can't be deleted.");
+        }
+
+        $exercise->delete();
+
+        return redirect()->route('exercises.index')->with('status', 'Exercise deleted.');
+    }
+
     private function validateExercise(Request $request, ?Exercise $exercise = null)
     {
         return $request->validate([
