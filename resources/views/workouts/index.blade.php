@@ -5,6 +5,8 @@
 @section('content')
     <h1>{{ auth()->user()->is_admin ? 'All workouts' : 'My workouts' }}</h1>
 
+    <p><a href="{{ route('workouts.create') }}" class="btn btn-primary">New workout</a></p>
+
     <div class="card">
         <table>
             <tr>

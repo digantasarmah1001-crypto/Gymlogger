@@ -19,6 +19,18 @@ class WorkoutController extends Controller
         return view('workouts.index', ['workouts' => $query->get()]);
     }
 
+    public function create()
+    {
+        return view('workouts.create', ['workout' => new Workout(['date' => today()])]);
+    }
+
+    public function store(Request $request)
+    {
+        $workout = $request->user()->workouts()->create($this->validateWorkout($request));
+
+        return redirect()->route('workouts.show', $workout)->with('status', 'Workout saved. Now add your sets.');
+    }
+
     public function show(Workout $workout)
     {
         Gate::authorize('view', $workout);
@@ -26,5 +38,14 @@ class WorkoutController extends Controller
         $workout->load('sets.exercise');
 
         return view('workouts.show', ['workout' => $workout]);
+    }
+
+    private function validateWorkout(Request $request)
+    {
+        return $request->validate([
+            'title' => ['required', 'string', 'max:100'],
+            'date' => ['required', 'date', 'before_or_equal:today'],
+            'notes' => ['nullable', 'string', 'max:1000'],
+        ]);
     }
 }

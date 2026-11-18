@@ -17,7 +17,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::resource('workouts', WorkoutController::class)->only(['index', 'show']);
+    Route::resource('workouts', WorkoutController::class)->only(['index', 'create', 'store', 'show']);
 });
 
 Route::middleware(['auth', 'can:admin'])->group(function () {
