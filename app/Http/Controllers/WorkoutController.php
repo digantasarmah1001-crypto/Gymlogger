@@ -40,6 +40,31 @@ class WorkoutController extends Controller
         return view('workouts.show', ['workout' => $workout]);
     }
 
+    public function edit(Workout $workout)
+    {
+        Gate::authorize('update', $workout);
+
+        return view('workouts.edit', ['workout' => $workout]);
+    }
+
+    public function update(Request $request, Workout $workout)
+    {
+        Gate::authorize('update', $workout);
+
+        $workout->update($this->validateWorkout($request));
+
+        return redirect()->route('workouts.show', $workout)->with('status', 'Workout updated.');
+    }
+
+    public function destroy(Workout $workout)
+    {
+        Gate::authorize('delete', $workout);
+
+        $workout->delete();
+
+        return redirect()->route('workouts.index')->with('status', 'Workout deleted.');
+    }
+
     private function validateWorkout(Request $request)
     {
         return $request->validate([

@@ -32,5 +32,14 @@
         </table>
     </div>
 
+    <div class="actions">
+        <a href="{{ route('workouts.edit', $workout) }}" class="btn">Edit</a>
+        <form method="POST" action="{{ route('workouts.destroy', $workout) }}">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn-danger">Delete workout</button>
+        </form>
+    </div>
+
     <a href="{{ route('workouts.index') }}">Back to my workouts</a>
 @endsection

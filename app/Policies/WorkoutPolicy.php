@@ -11,4 +11,14 @@ class WorkoutPolicy
     {
         return $user->is_admin || $user->id === $workout->user_id;
     }
+
+    public function update(User $user, Workout $workout): bool
+    {
+        return $user->is_admin || $user->id === $workout->user_id;
+    }
+
+    public function delete(User $user, Workout $workout): bool
+    {
+        return $user->is_admin || $user->id === $workout->user_id;
+    }
 }
