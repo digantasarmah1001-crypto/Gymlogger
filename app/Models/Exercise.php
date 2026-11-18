@@ -3,9 +3,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['name', 'muscle_group', 'equipment', 'description'])]
 class Exercise extends Model
 {
 use HasFactory;
 public const MUSCLE_GROUPS = ['Chest', 'Back', 'Legs', 'Shoulders', 'Arms', 'Core'];
+public function sets(): HasMany
+{
+return $this->hasMany(WorkoutSet::class);
+}
 }
