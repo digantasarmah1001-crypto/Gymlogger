@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Exercise;
 use App\Models\Workout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -37,7 +38,10 @@ class WorkoutController extends Controller
 
         $workout->load('sets.exercise');
 
-        return view('workouts.show', ['workout' => $workout]);
+        return view('workouts.show', [
+            'workout' => $workout,
+            'exercises' => Exercise::orderBy('name')->get(),
+        ]);
     }
 
     public function edit(Workout $workout)
