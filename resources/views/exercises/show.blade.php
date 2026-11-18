@@ -10,6 +10,13 @@
         <p>{{ $exercise->description }}</p>
     </div>
 
+    <div class="stats">
+        <div class="stat"><strong>{{ $timesLogged }}</strong> sets logged by everyone</div>
+        @auth
+            <div class="stat"><strong>{{ $myBest ?? '-' }}</strong> kg is your best</div>
+        @endauth
+    </div>
+
     @can('admin')
         <div class="actions">
             <a href="{{ route('exercises.edit', $exercise) }}" class="btn">Edit</a>

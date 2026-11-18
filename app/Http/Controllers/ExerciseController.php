@@ -29,7 +29,17 @@ class ExerciseController extends Controller
 
     public function show(Exercise $exercise)
     {
-        return view('exercises.show', ['exercise' => $exercise]);
+        $myBest = null;
+
+        if (auth()->check()) {
+            $myBest = $exercise->sets()->whereRelation('workout', 'user_id', auth()->id())->max('weight_kg');
+        }
+
+        return view('exercises.show', [
+            'exercise' => $exercise,
+            'myBest' => $myBest,
+            'timesLogged' => $exercise->sets()->count(),
+        ]);
     }
 
     public function edit(Exercise $exercise)
