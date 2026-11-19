@@ -26,3 +26,9 @@
     <textarea id="description" name="description" rows="3">{{ old('description', $exercise->description) }}</textarea>
     @error('description') <p class="error">{{ $message }}</p> @enderror
 </div>
+
+<div class="field">
+    <label for="image">Image</label>
+    <input id="image" name="image" value="{{ old('image', $exercise->image) }}" placeholder="images/exercises/plank.jpg or https://...">
+    @error('image') <p class="error">{{ $message }}</p> @enderror
+</div>

@@ -72,6 +72,7 @@ class ExerciseController extends Controller
             'muscle_group' => ['required', Rule::in(Exercise::MUSCLE_GROUPS)],
             'equipment' => ['nullable', 'string', 'max:50'],
             'description' => ['nullable', 'string', 'max:1000'],
+            'image' => ['nullable', 'string', 'max:255'],
         ]);
     }
 }

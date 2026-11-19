@@ -74,6 +74,7 @@ input, select, textarea { width: 100%; padding: 8px 10px; border: 2px solid var(
 
 .flash { background: var(--lime); padding: 10px 14px; border-radius: 6px; font-weight: 600; }
 .flash-error { background: #fbe4df; color: var(--red); }
+.photo { width: 100%; max-height: 380px; object-fit: cover; border-radius: 6px; margin-bottom: 20px; }
 .badge { background: var(--dark); color: var(--lime); padding: 2px 8px; border-radius: 3px; font-size: .75rem; }
 
 @media (max-width: 640px) {

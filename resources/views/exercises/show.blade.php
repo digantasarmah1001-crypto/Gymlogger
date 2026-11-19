@@ -5,6 +5,10 @@
 @section('content')
     <h1>{{ $exercise->name }}</h1>
 
+    @if ($exercise->image)
+        <img src="{{ asset($exercise->image) }}" alt="{{ $exercise->name }}" class="photo">
+    @endif
+
     <div class="card">
         <p><span class="badge">{{ $exercise->muscle_group }}</span> {{ $exercise->equipment }}</p>
         <p>{{ $exercise->description }}</p>
