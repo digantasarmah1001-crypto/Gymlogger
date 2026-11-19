@@ -8,6 +8,7 @@ use App\Http\Controllers\WorkoutSetController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/credits', [HomeController::class, 'credits'])->name('credits');
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');

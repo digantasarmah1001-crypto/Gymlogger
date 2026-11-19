@@ -36,5 +36,9 @@
 
         @yield('content')
     </main>
+
+    <footer class="footer">
+        <a href="{{ route('credits') }}">Photo credits</a>
+    </footer>
 </body>
 </html>
