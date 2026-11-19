@@ -9,20 +9,9 @@
         <p><a href="{{ route('exercises.create') }}" class="btn btn-primary">New exercise</a></p>
     @endcan
 
-    <div class="card">
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Muscle group</th>
-                <th>Equipment</th>
-            </tr>
-            @foreach ($exercises as $exercise)
-                <tr>
-                    <td><a href="{{ route('exercises.show', $exercise) }}">{{ $exercise->name }}</a></td>
-                    <td><span class="badge">{{ $exercise->muscle_group }}</span></td>
-                    <td>{{ $exercise->equipment }}</td>
-                </tr>
-            @endforeach
-        </table>
+    <div class="grid">
+        @foreach ($exercises as $exercise)
+            @include('exercises._card')
+        @endforeach
     </div>
 @endsection
