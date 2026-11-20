@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExerciseController;
+use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WorkoutController;
 use App\Http\Controllers\WorkoutSetController;
@@ -22,6 +23,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('workouts', WorkoutController::class);
     Route::post('/workouts/{workout}/sets', [WorkoutSetController::class, 'store'])->name('sets.store');
     Route::delete('/sets/{set}', [WorkoutSetController::class, 'destroy'])->name('sets.destroy');
+    Route::get('/favourites', [FavouriteController::class, 'index'])->name('favourites.index');
+    Route::post('/exercises/{exercise}/favourite', [FavouriteController::class, 'toggle'])->name('favourites.toggle');
 });
 
 Route::middleware(['auth', 'can:admin'])->group(function () {

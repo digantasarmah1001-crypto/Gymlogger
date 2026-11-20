@@ -14,6 +14,7 @@
             <a href="{{ route('exercises.index') }}">Exercises</a>
             @auth
                 <a href="{{ route('workouts.index') }}">My workouts</a>
+                <a href="{{ route('favourites.index') }}">Favourites</a>
                 <span class="user">Hi, {{ auth()->user()->name }}</span>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

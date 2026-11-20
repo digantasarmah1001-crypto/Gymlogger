@@ -12,6 +12,13 @@
         <p>{{ $exercise->description }}</p>
     </div>
 
+    @auth
+        <form method="POST" action="{{ route('favourites.toggle', $exercise) }}" class="actions">
+            @csrf
+            <button type="submit">{{ $isFavourite ? '★ Remove from favourites' : '☆ Add to favourites' }}</button>
+        </form>
+    @endauth
+
     <div class="stats">
         <div class="stat"><strong>{{ $timesLogged }}</strong> sets logged by everyone</div>
         @auth

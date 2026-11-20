@@ -34,18 +34,20 @@ class ExerciseController extends Controller
     public function show(Exercise $exercise)
     {
         $myBest = null;
+        $isFavourite = false;
 
         if (auth()->check()) {
             $myBest = $exercise->sets()->whereRelation('workout', 'user_id', auth()->id())->max('weight_kg');
+            $isFavourite = auth()->user()->favouriteExercises()->whereKey($exercise->id)->exists();
         }
 
         return view('exercises.show', [
             'exercise' => $exercise,
             'myBest' => $myBest,
             'timesLogged' => $exercise->sets()->count(),
+            'isFavourite' => $isFavourite,
         ]);
     }
-
     public function edit(Exercise $exercise)
     {
         return view('exercises.edit', ['exercise' => $exercise]);
