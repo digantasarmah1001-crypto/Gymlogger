@@ -22,6 +22,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::resource('workouts', WorkoutController::class);
     Route::post('/workouts/{workout}/sets', [WorkoutSetController::class, 'store'])->name('sets.store');
+    Route::get('/sets/{set}/edit', [WorkoutSetController::class, 'edit'])->name('sets.edit');
+    Route::put('/sets/{set}', [WorkoutSetController::class, 'update'])->name('sets.update');
     Route::delete('/sets/{set}', [WorkoutSetController::class, 'destroy'])->name('sets.destroy');
     Route::get('/favourites', [FavouriteController::class, 'index'])->name('favourites.index');
     Route::post('/exercises/{exercise}/favourite', [FavouriteController::class, 'toggle'])->name('favourites.toggle');

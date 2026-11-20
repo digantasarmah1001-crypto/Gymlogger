@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Exercise;
 use App\Models\Workout;
 use App\Models\WorkoutSet;
 use Illuminate\Http\Request;
@@ -13,18 +14,28 @@ class WorkoutSetController extends Controller
     {
         Gate::authorize('update', $workout);
 
-        $validated = $request->validate([
-            'exercise_id' => ['required', 'exists:exercises,id'],
-            'reps' => ['required', 'integer', 'min:1', 'max:100'],
-            'weight_kg' => ['required', 'numeric', 'min:0', 'max:1000'],
-        ], [], [
-            'exercise_id' => 'exercise',
-            'weight_kg' => 'weight',
-        ]);
-
-        $workout->sets()->create($validated);
+        $workout->sets()->create($this->validateSet($request));
 
         return back()->with('status', 'Set added.');
+    }
+
+    public function edit(WorkoutSet $set)
+    {
+        Gate::authorize('update', $set->workout);
+
+        return view('sets.edit', [
+            'set' => $set,
+            'exercises' => Exercise::orderBy('name')->get(),
+        ]);
+    }
+
+    public function update(Request $request, WorkoutSet $set)
+    {
+        Gate::authorize('update', $set->workout);
+
+        $set->update($this->validateSet($request));
+
+        return redirect()->route('workouts.show', $set->workout)->with('status', 'Set updated.');
     }
 
     public function destroy(WorkoutSet $set)
@@ -34,5 +45,17 @@ class WorkoutSetController extends Controller
         $set->delete();
 
         return back()->with('status', 'Set deleted.');
+    }
+
+    private function validateSet(Request $request)
+    {
+        return $request->validate([
+            'exercise_id' => ['required', 'exists:exercises,id'],
+            'reps' => ['required', 'integer', 'min:1', 'max:100'],
+            'weight_kg' => ['required', 'numeric', 'min:0', 'max:1000'],
+        ], [], [
+            'exercise_id' => 'exercise',
+            'weight_kg' => 'weight',
+        ]);
     }
 }

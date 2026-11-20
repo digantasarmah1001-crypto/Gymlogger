@@ -24,7 +24,8 @@
                     <td>{{ $set->exercise->name }}</td>
                     <td>{{ $set->reps }}</td>
                     <td>{{ $set->weight_kg }} kg</td>
-                    <td>
+                    <td class="actions">
+                        <a href="{{ route('sets.edit', $set) }}" class="btn">Edit</a>
                         <form method="POST" action="{{ route('sets.destroy', $set) }}">
                             @csrf
                             @method('DELETE')
