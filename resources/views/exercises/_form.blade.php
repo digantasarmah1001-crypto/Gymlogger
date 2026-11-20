@@ -28,7 +28,10 @@
 </div>
 
 <div class="field">
-    <label for="image">Image</label>
-    <input id="image" name="image" value="{{ old('image', $exercise->image) }}" placeholder="images/exercises/plank.jpg or https://...">
+    <label for="image">Photo (jpg, png or webp, max 2 MB)</label>
+    <input id="image" name="image" type="file" accept="image/*">
+    @if ($exercise->image)
+        <p class="muted">Leave empty to keep the current photo.</p>
+    @endif
     @error('image') <p class="error">{{ $message }}</p> @enderror
 </div>

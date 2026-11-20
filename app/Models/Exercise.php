@@ -18,4 +18,9 @@ class Exercise extends Model
     {
         return $this->hasMany(WorkoutSet::class);
     }
+
+    public function imageUrl(): string
+    {
+        return asset($this->image ?? 'images/placeholder.jpg');
+    }
 }

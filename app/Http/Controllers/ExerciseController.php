@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Exercise;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class ExerciseController extends Controller
@@ -22,7 +23,10 @@ class ExerciseController extends Controller
 
     public function store(Request $request)
     {
-        $exercise = Exercise::create($this->validateExercise($request));
+        $data = $this->validateExercise($request);
+        $data['image'] = $this->storeImage($request);
+
+        $exercise = Exercise::create($data);
 
         return redirect()->route('exercises.show', $exercise)->with('status', 'Exercise added.');
     }
@@ -49,7 +53,10 @@ class ExerciseController extends Controller
 
     public function update(Request $request, Exercise $exercise)
     {
-        $exercise->update($this->validateExercise($request, $exercise));
+        $data = $this->validateExercise($request, $exercise);
+        $data['image'] = $this->storeImage($request) ?? $exercise->image;
+
+        $exercise->update($data);
 
         return redirect()->route('exercises.show', $exercise)->with('status', 'Exercise updated.');
     }
@@ -72,7 +79,20 @@ class ExerciseController extends Controller
             'muscle_group' => ['required', Rule::in(Exercise::MUSCLE_GROUPS)],
             'equipment' => ['nullable', 'string', 'max:50'],
             'description' => ['nullable', 'string', 'max:1000'],
-            'image' => ['nullable', 'string', 'max:255'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
+    }
+
+    private function storeImage(Request $request): ?string
+    {
+        if (! $request->hasFile('image')) {
+            return null;
+        }
+
+        $file = $request->file('image');
+        $name = Str::slug($request->input('name')).'-'.time().'.'.$file->extension();
+        $file->move(public_path('uploads/exercises'), $name);
+
+        return 'uploads/exercises/'.$name;
     }
 }
