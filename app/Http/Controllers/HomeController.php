@@ -5,17 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Exercise;
 use App\Models\Workout;
 use App\Models\WorkoutSet;
+use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
-    public function index()
+        public function index()
     {
-        return view('welcome', [
+        $data = Cache::remember('welcome', now()->addHour(), fn () => [
             'exerciseCount' => Exercise::count(),
             'workoutCount' => Workout::count(),
             'setCount' => WorkoutSet::count(),
-            'exercises' => Exercise::orderBy('name')->take(8)->get(),
+            'exercises' => Exercise::orderBy('name')->take(8)->get()->toArray(),
         ]);
+
+        $data['exercises'] = Exercise::hydrate($data['exercises']);
+
+        return view('welcome', $data);
     }
 
     public function credits()

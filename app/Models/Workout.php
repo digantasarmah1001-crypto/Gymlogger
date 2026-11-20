@@ -1,26 +1,33 @@
 <?php
+
 namespace App\Models;
+
+use App\Models\Concerns\ClearsWelcomeCache;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+
 #[Fillable(['title', 'date', 'notes'])]
 class Workout extends Model
 {
-use HasFactory;
-protected function casts(): array
-{
-return [
-'date' => 'date',
-];
-}
-public function user(): BelongsTo
-{
-return $this->belongsTo(User::class);
-}
-public function sets(): HasMany
-{
-return $this->hasMany(WorkoutSet::class);
-}
+    use ClearsWelcomeCache, HasFactory;
+
+    protected function casts(): array
+    {
+        return [
+            'date' => 'date',
+        ];
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function sets(): HasMany
+    {
+        return $this->hasMany(WorkoutSet::class);
+    }
 }
