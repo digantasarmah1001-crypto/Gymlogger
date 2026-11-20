@@ -13,4 +13,4 @@ A user logs workouts. A workout has sets, and every set is one exercise with rep
 - Validate input in the controller with `$request->validate()`.
 - Every route goes to a controller method.
 - Views extend `layouts/app.blade.php`.
-- The admin is `admin@admin.com` / `password`.
+- The admin is `admin@example.com` / `password`.

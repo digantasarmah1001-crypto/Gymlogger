@@ -17,7 +17,7 @@ php artisan serve
 
 Open http://localhost:8000
 
-Admin login: `admin@admin.com` / `password`
+Admin login: `admin@example.com` / `password`
 
 ## Data model
 
