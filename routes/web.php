@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SuggestionController;
 use App\Http\Controllers\WorkoutController;
 use App\Http\Controllers\WorkoutSetController;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'can:admin'])->group(function () {
     Route::resource('exercises', ExerciseController::class)->only(['edit', 'update', 'destroy']);
+    Route::get('/suggestions', [SuggestionController::class, 'index'])->name('suggestions.index');
+    Route::patch('/exercises/{exercise}/approve', [SuggestionController::class, 'approve'])->name('suggestions.approve');
 });
 
 Route::resource('exercises', ExerciseController::class)->only(['index', 'show']);
