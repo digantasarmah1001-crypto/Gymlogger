@@ -27,10 +27,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/sets/{set}', [WorkoutSetController::class, 'destroy'])->name('sets.destroy');
     Route::get('/favourites', [FavouriteController::class, 'index'])->name('favourites.index');
     Route::post('/exercises/{exercise}/favourite', [FavouriteController::class, 'toggle'])->name('favourites.toggle');
+    Route::resource('exercises', ExerciseController::class)->only(['create', 'store']);
 });
 
 Route::middleware(['auth', 'can:admin'])->group(function () {
-    Route::resource('exercises', ExerciseController::class)->except(['index', 'show']);
+    Route::resource('exercises', ExerciseController::class)->only(['edit', 'update', 'destroy']);
 });
 
 Route::resource('exercises', ExerciseController::class)->only(['index', 'show']);

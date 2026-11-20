@@ -91,6 +91,7 @@ input, select, textarea { width: 100%; padding: 8px 10px; border: 2px solid var(
 .flash-error { background: #fbe4df; color: var(--red); }
 .photo { width: 100%; max-width: 640px; max-height: 380px; object-fit: cover; border-radius: 6px; margin-bottom: 20px; }
 .badge { background: var(--dark); color: var(--lime); padding: 2px 8px; border-radius: 3px; font-size: .75rem; }
+.badge-pending { background: var(--lime); color: var(--dark); }
 
 .footer { text-align: center; padding: 20px; border-top: 1px solid var(--line); font-size: .85rem; }
 .footer a { color: var(--muted); margin: 0 8px; }

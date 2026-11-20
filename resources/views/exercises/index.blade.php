@@ -5,9 +5,10 @@
 @section('content')
     <h1>Exercises</h1>
 
-    @can('admin')
+    @auth
         <p><a href="{{ route('exercises.create') }}" class="btn btn-primary">New exercise</a></p>
-    @endcan
+        <p class="muted">Missing an exercise? Add it yourself. You can use it right away, and everyone sees it once the admin approves it.</p>
+    @endauth
 
     <div class="grid">
         @foreach ($exercises as $exercise)

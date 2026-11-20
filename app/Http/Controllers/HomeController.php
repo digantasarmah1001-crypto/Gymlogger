@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
-        public function index()
+    public function index()
     {
         $data = Cache::remember('welcome', now()->addHour(), fn () => [
-            'exerciseCount' => Exercise::count(),
+            'exerciseCount' => Exercise::where('is_approved', true)->count(),
             'workoutCount' => Workout::count(),
             'setCount' => WorkoutSet::count(),
-            'exercises' => Exercise::orderBy('name')->take(8)->get()->toArray(),
+            'exercises' => Exercise::where('is_approved', true)->orderBy('name')->take(8)->get()->toArray(),
         ]);
 
         $data['exercises'] = Exercise::hydrate($data['exercises']);

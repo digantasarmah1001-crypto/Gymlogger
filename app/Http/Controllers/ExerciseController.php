@@ -11,7 +11,7 @@ class ExerciseController extends Controller
 {
     public function index()
     {
-        $exercises = Exercise::orderBy('muscle_group')->orderBy('name')->get();
+        $exercises = Exercise::visibleTo(auth()->user())->orderBy('muscle_group')->orderBy('name')->get();
 
         return view('exercises.index', ['exercises' => $exercises]);
     }
@@ -26,13 +26,22 @@ class ExerciseController extends Controller
         $data = $this->validateExercise($request);
         $data['image'] = $this->storeImage($request);
 
-        $exercise = Exercise::create($data);
+        $exercise = new Exercise($data);
+        $exercise->user_id = $request->user()->id;
+        $exercise->is_approved = $request->user()->is_admin;
+        $exercise->save();
 
-        return redirect()->route('exercises.show', $exercise)->with('status', 'Exercise added.');
+        $message = $exercise->is_approved
+            ? 'Exercise added.'
+            : 'Exercise added. Only you can see it until the admin approves it.';
+
+        return redirect()->route('exercises.show', $exercise)->with('status', $message);
     }
 
     public function show(Exercise $exercise)
     {
+        abort_unless($exercise->isVisibleTo(auth()->user()), 404);
+
         $myBest = null;
         $isFavourite = false;
 
@@ -48,6 +57,7 @@ class ExerciseController extends Controller
             'isFavourite' => $isFavourite,
         ]);
     }
+
     public function edit(Exercise $exercise)
     {
         return view('exercises.edit', ['exercise' => $exercise]);

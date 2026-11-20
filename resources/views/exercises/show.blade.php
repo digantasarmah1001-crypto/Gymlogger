@@ -4,6 +4,9 @@
 
 @section('content')
     <h1>{{ $exercise->name }}</h1>
+    @unless ($exercise->is_approved)
+        <p class="muted">Waiting for approval: only the person who added it (and the admin) can see this exercise.</p>
+    @endunless
 
     <img src="{{ $exercise->imageUrl() }}" alt="{{ $exercise->name }}" class="photo">
 

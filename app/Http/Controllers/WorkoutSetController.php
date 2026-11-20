@@ -7,6 +7,7 @@ use App\Models\Workout;
 use App\Models\WorkoutSet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 class WorkoutSetController extends Controller
 {
@@ -25,7 +26,7 @@ class WorkoutSetController extends Controller
 
         return view('sets.edit', [
             'set' => $set,
-            'exercises' => Exercise::orderBy('name')->get(['id', 'name']),
+            'exercises' => Exercise::visibleTo(auth()->user())->orderBy('name')->get(['id', 'name']),
         ]);
     }
 
@@ -50,7 +51,7 @@ class WorkoutSetController extends Controller
     private function validateSet(Request $request)
     {
         return $request->validate([
-            'exercise_id' => ['required', 'exists:exercises,id'],
+            'exercise_id' => ['required', Rule::in(Exercise::visibleTo($request->user())->pluck('id'))],
             'reps' => ['required', 'integer', 'min:1', 'max:100'],
             'weight_kg' => ['required', 'numeric', 'min:0', 'max:1000'],
         ], [], [

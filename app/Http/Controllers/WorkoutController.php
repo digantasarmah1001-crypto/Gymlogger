@@ -40,7 +40,7 @@ class WorkoutController extends Controller
 
         return view('workouts.show', [
             'workout' => $workout,
-            'exercises' => Exercise::orderBy('name')->get(['id', 'name']),
+            'exercises' => Exercise::visibleTo(auth()->user())->orderBy('name')->get(['id', 'name']),
         ]);
     }
 

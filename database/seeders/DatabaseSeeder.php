@@ -26,6 +26,16 @@ class DatabaseSeeder extends Seeder
 
         $users = User::factory(5)->create()->push($admin);
         $exercises = Exercise::factory(15)->create();
+        
+        $suggestion = new Exercise([
+            'name' => 'Hip Thrust',
+            'muscle_group' => 'Legs',
+            'equipment' => 'Barbell',
+            'description' => 'Sit with your back against a bench and push your hips up with a barbell.',
+        ]);
+        $suggestion->user_id = $users->first()->id;
+        $suggestion->is_approved = false;
+        $suggestion->save();
 
         foreach ($users as $user) {
             $user->favouriteExercises()->attach($exercises->random(3));
