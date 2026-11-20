@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
         $exercises = Exercise::factory(15)->create();
 
         foreach ($users as $user) {
+            $user->favouriteExercises()->attach($exercises->random(3));
+
             $workouts = Workout::factory(4)->for($user)->create();
 
             foreach ($workouts as $workout) {
