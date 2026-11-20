@@ -11,10 +11,8 @@
     <nav class="nav">
         <div class="container">
             <a href="{{ route('home') }}" class="brand">Gym<span>logger</span></a>
-            <a href="{{ route('exercises.index') }}">Exercises</a>
+            <x-menu />
             @auth
-                <a href="{{ route('workouts.index') }}">My workouts</a>
-                <a href="{{ route('favourites.index') }}">Favourites</a>
                 <span class="user">Hi, {{ auth()->user()->name }}</span>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -28,17 +26,13 @@
     </nav>
 
     <main class="container">
-        @if (session('status'))
-            <p class="flash">{{ session('status') }}</p>
-        @endif
-        @if (session('error'))
-            <p class="flash flash-error">{{ session('error') }}</p>
-        @endif
+        <x-flash />
 
         @yield('content')
     </main>
 
     <footer class="footer">
+        <x-menu />
         <a href="{{ route('credits') }}">Photo credits</a>
     </footer>
 </body>
