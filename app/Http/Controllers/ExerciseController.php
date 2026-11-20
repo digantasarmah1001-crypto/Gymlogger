@@ -82,6 +82,10 @@ class ExerciseController extends Controller
             'equipment' => ['nullable', 'string', 'max:50'],
             'description' => ['nullable', 'string', 'max:1000'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+        ], [
+            'name.unique' => 'There is already an exercise with this name.',
+            'muscle_group.in' => 'Choose a muscle group from the list.',
+            'image.max' => 'The photo can be at most 2 MB.',
         ]);
     }
 

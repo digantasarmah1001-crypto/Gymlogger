@@ -25,7 +25,7 @@ class WorkoutSetController extends Controller
 
         return view('sets.edit', [
             'set' => $set,
-            'exercises' => Exercise::orderBy('name')->get(),
+            'exercises' => Exercise::orderBy('name')->get(['id', 'name']),
         ]);
     }
 

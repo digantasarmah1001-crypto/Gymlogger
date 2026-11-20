@@ -11,7 +11,7 @@ class WorkoutController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Workout::with('user')->withCount('sets')->latest('date');
+        $query = Workout::with('user:id,name')->withCount('sets')->latest('date');
 
         if (! $request->user()->is_admin) {
             $query->where('user_id', $request->user()->id);
@@ -36,11 +36,11 @@ class WorkoutController extends Controller
     {
         Gate::authorize('view', $workout);
 
-        $workout->load('sets.exercise');
+        $workout->load('sets.exercise:id,name');
 
         return view('workouts.show', [
             'workout' => $workout,
-            'exercises' => Exercise::orderBy('name')->get(),
+            'exercises' => Exercise::orderBy('name')->get(['id', 'name']),
         ]);
     }
 
@@ -75,6 +75,8 @@ class WorkoutController extends Controller
             'title' => ['required', 'string', 'max:100'],
             'date' => ['required', 'date', 'before_or_equal:today'],
             'notes' => ['nullable', 'string', 'max:1000'],
+        ], [
+            'date.before_or_equal' => "You can't log a workout in the future.",
         ]);
     }
 }

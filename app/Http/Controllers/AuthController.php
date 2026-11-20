@@ -19,6 +19,9 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', 'min:8'],
+        ], [
+            'email.unique' => 'There is already an account with this email.',
+            'password.confirmed' => 'The two passwords are not the same.',
         ]);
 
         $user = User::create($validated);
