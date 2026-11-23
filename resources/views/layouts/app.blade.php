@@ -35,5 +35,7 @@
         <x-menu />
         <a href="{{ route('credits') }}">Photo credits</a>
     </footer>
+
+    <x-promos />
 </body>
 </html>
