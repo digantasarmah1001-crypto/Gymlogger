@@ -22,9 +22,16 @@ class Menu extends Component
         }
 
         if (auth()->user()?->is_admin) {
-            $waiting = Exercise::where('is_approved', false)->count();
+            $waiting = self::waitingSuggestions();
             $this->links["Suggestions ($waiting)"] = route('suggestions.index');
         }
+    }
+
+    // The menu is shown twice (header and footer). once() runs the query
+    // the first time and reuses the answer for the rest of this request.
+    private static function waitingSuggestions(): int
+    {
+        return once(fn () => Exercise::where('is_approved', false)->count());
     }
 
     public function render(): View
