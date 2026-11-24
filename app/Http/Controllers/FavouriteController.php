@@ -16,6 +16,8 @@ class FavouriteController extends Controller
 
     public function toggle(Request $request, Exercise $exercise)
     {
+        abort_unless($exercise->isVisibleTo($request->user()), 404);
+        
         $result = $request->user()->favouriteExercises()->toggle($exercise);
 
         $message = $result['attached'] ? 'Added to your favourites.' : 'Removed from your favourites.';
