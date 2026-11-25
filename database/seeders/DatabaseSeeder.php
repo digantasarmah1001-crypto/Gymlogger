@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
 
         $users = User::factory(5)->create()->push($admin);
         $exercises = Exercise::factory(15)->create();
-        
+
         $suggestion = new Exercise([
             'name' => 'Hip Thrust',
             'muscle_group' => 'Legs',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Exercise;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -66,8 +67,13 @@ class ExerciseController extends Controller
     public function update(Request $request, Exercise $exercise)
     {
         $data = $this->validateExercise($request, $exercise);
-        $data['image'] = $this->storeImage($request) ?? $exercise->image;
+        $newImage = $this->storeImage($request);
 
+        if ($newImage) {
+            $this->deleteUploadedImage($exercise->image);
+        }
+
+        $data['image'] = $newImage ?? $exercise->image;
         $exercise->update($data);
 
         return redirect()->route('exercises.show', $exercise)->with('status', 'Exercise updated.');
@@ -80,6 +86,7 @@ class ExerciseController extends Controller
         }
 
         $exercise->delete();
+        $this->deleteUploadedImage($exercise->image);
 
         return redirect()->route('exercises.index')->with('status', 'Exercise deleted.');
     }
@@ -110,5 +117,13 @@ class ExerciseController extends Controller
         $file->move(public_path('uploads/exercises'), $name);
 
         return 'uploads/exercises/'.$name;
+    }
+
+    // Only delete photos users uploaded, never the built-in ones in public/images.
+    private function deleteUploadedImage(?string $path): void
+    {
+        if ($path && str_starts_with($path, 'uploads/')) {
+            File::delete(public_path($path));
+        }
     }
 }

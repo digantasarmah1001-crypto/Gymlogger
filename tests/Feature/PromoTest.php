@@ -14,7 +14,7 @@ class PromoTest extends TestCase
     {
         $this->get('/')
             ->assertSee('rail-left')
-            ->assertSee('rail-right');  
+            ->assertSee('rail-right');
     }
 
     public function test_every_promo_links_to_a_real_page_and_has_a_photo(): void
